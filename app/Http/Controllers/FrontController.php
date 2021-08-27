@@ -8,6 +8,9 @@ use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\ProductBrand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Ath;
+use Illuminate\Support\Facades\Session;
 
 class FrontController extends Controller
 {
@@ -20,10 +23,33 @@ class FrontController extends Controller
     {
         $brand = ProductBrand::all();
         return view('front.content', [
-            'brands'=>$brand,
+            'brands' => $brand,
         ]);
     }
 
+
+    public function changeLang($language)
+    {
+        Session::put('website_language', $language);
+        // App::setLocale($language);
+
+        return redirect()->back();
+        // if ($lang == 'vi') {
+        //     App::setLocale('vi');
+        //     return redirect()->back();
+        // } else {
+        //     App::setLocale('en');
+        //     return redirect()->back();
+        // }
+
+        // if ($lang = 'en') {
+        //     App::setLocale($lang);
+        //     return redirect()->back();
+        // } else {
+        //     App::setLocale('en');
+        //     return redirect()->back();
+        // }
+    }
     // public function newProduct(){
     //     $product = Product::select('name', 'desc')->orderBy('id', 'DESC')->first();
     //     return view('front.content', ['productt' => $product]);
@@ -59,7 +85,7 @@ class FrontController extends Controller
     public function show($id)
     {
         $product = Product::find($id);
-        return view('front.detail', array('products'=>$product));
+        return view('front.detail', array('products' => $product));
     }
 
     public function brand($id)
@@ -68,11 +94,12 @@ class FrontController extends Controller
         $brand = ProductBrand::findOrFail($id);
 
         return view('front.brand', [
-            'brands'=>$brands,
-            'brand'=>$brand
+            'brands' => $brands,
+            'brand' => $brand
         ]);
     }
-    public function contact(){
+    public function contact()
+    {
         return view('front.contact');
     }
 }

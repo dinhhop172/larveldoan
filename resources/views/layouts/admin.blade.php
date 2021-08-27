@@ -1,4 +1,5 @@
 @extends('layouts.master')
+{{--@section('main')--}}
 {{-- <body>
     <div class="container-fluid">
         <div class="row"> --}}
@@ -152,3 +153,4 @@
 		<a class="scroll-to-top rounded" href="#page-top"> <i class="fas fa-angle-up top"></i> </a>
 		<!-- Logout Modal-->
 </body>
+{{--@endsection--}}

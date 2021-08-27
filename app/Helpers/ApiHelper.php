@@ -7,6 +7,6 @@
     }
 
     function api_success($data, $statusCode=200) {
-        return response()->json(array_merge(['code'=>200, $data]), $statusCode);
+        return response()->json(array_merge(['code'=>200, 'Succcess' =>"Thanh cong"], $data), $statusCode);
     }
 ?>

@@ -45,7 +45,7 @@
                 <button type="button" class="close" data-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('customers.update', $customer->id) }}" method="POST">
+                <form action="{{ route('customers.update', [$customer->id]) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="form-group">

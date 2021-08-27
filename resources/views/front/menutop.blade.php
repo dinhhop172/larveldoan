@@ -35,7 +35,7 @@
             </li>
 
             <li class="nav-item pd-lr">
-                <a class="nav-link" href="{{ route('apiBrand') }}">TestAPI</a>
+                <a class="nav-link" href="{{ route('apiBrand') }}">{{ __('content.name') }}</a>
             </li>
 
             @if (!empty(session()->get('carts')))
@@ -49,7 +49,28 @@
 
 
             @endif
-
+            
+            {{-- <li class="nav-item dropdown pd-lr">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    ENG
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="">VIE</a>
+                </div>
+            </li> --}}
+            @if(app()->getLocale() == 'en')
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="flag-icon flag-icon-us"> </span> ENG</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown09">
+                    <a class="dropdown-item" href="{{ route('changeLang', 'vi') }}"><span class="flag-icon flag-icon-vn"> </span> Vietnam</a>
+                </div>
+            @else
+                <a class="dropdown-item" href="{{ route('changeLang', 'en') }}"><span class="flag-icon flag-icon-us"> </span> English</a>
+            </li>
+            @endif
+            <li class="nav-item pd-lr">
+                <a class="nav-link count">{{ app()->getLocale() }} <i class="fas fa-cart-plus"></i></a>
+            </li>
         </ul>
         <div class="">
             @if (isset(Auth::user()->name))

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CustomerRequest;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class CustomerController extends Controller
 {
@@ -101,5 +103,12 @@ class CustomerController extends Controller
         $customer = Customer::find($id);
         $customer->delete($id);
         return redirect()->route('customers.index');
+    }
+
+    public function hello(){
+//        dd(Auth::user()->email);
+//        if(Auth::user()->email == 'admin@gmail.com'){
+//            return redirect('admin/customer');
+//        }
     }
 }

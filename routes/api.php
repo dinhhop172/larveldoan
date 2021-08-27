@@ -23,7 +23,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::namespace('Api')->group(function() {
     Route::get('brand', 'BrandController@index')->name('apiBrand');
     Route::get('brand/{id}', 'BrandController@show')->where('id', '[0-9]+');
-    Route::get('brand/{id}/search', 'BrandController@search');
+    Route::get('brand/search', 'BrandController@search');
+    Route::get('brand/get', 'BrandController@get');
     Route::post('brand/create', 'BrandController@create');
 
     Route::get('product', 'ProductController@index');

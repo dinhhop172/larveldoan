@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendMail;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use Symfony\Component\Console\Input\Input;
 
 class CartController extends Controller
 {
@@ -25,22 +29,33 @@ class CartController extends Controller
         $product_id = $request->get('product_id');
         // if cart is empty then this the first product
         if(!$carts) {
-            $carts = array(
-                $product_id => $request->only('product_id',
-                                              'product_name',
-                                              'price', 'quantity'));
+                $carts = [
+                    $product_id => $request->only('product_id',
+                                                'product_name',
+                                                'price', 'quantity')];
         }
 
         // if cart not empty then check if this product exist then increment quantity
         if(isset($carts[$product_id])) {
-            $carts[$product_id]['quantity'] = $carts[$product_id]['quantity'];
+            // $carts[$product_id]['quantity'] = $request[$product_id]['quantity'];
+            // if($request->quantity == '1'){
+            //     $carts[$product_id]['quantity'] = 1;
+            // }else{
+            //     $carts[$product_id]['quantity'] += $request->quantity;
+            // }
+            $carts[$product_id]['quantity'] += $request->quantity;
+
+            session()->put('carts', $carts);
+            return redirect()->back();
         }else{
             $carts[$product_id] = $request->only('product_id',
                                                  'product_name',
                                                  'price', 'quantity');
         }
-
         session()->put('carts', $carts);
+        // echo '<pre>';
+        //     print_r($carts);
+        // echo '</pre>';
         return redirect()->back();
     }
 
@@ -63,13 +78,26 @@ class CartController extends Controller
         return back();
     }
 
+    public function updateAllQuantity(Request $request){
+        $carts = session()->get('carts');
+        $total_price = 0;
+        foreach($carts as $cart){
+            echo '<pre>';
+            print_r($cart);
+            echo '</pre>';
+            // $cart['quantity'] == $request->quantity;
+            // $total_price += $cart['price'] * $request->quantity;
+        }
+        // session()->put('carts', $cart);
+        // return back();
+    }
+
     public function postCheckout(Request $request){
         $carts = Session::get('carts');
         $total_price = 0;
         foreach($carts as $cart_data){
             $total_price += $cart_data['price'] * $cart_data['quantity'];
         }
-        // dd($carts);
         $customer = new Customer();
         $customer->name = $request->name;
         $customer->mail = $request->mail;
@@ -92,8 +120,37 @@ class CartController extends Controller
                 $order_detail->save();
             }
         }
-
+        if(!empty(Session::has('carts'))){
+            $details = [
+                'email' => $request->mail,
+                'name'=>$request->name,
+                'address'=>$request->address,
+                'phoneNumber'=>$request->phone_number,
+                'products'=> $carts,
+                'totalPrice' => $total_price,
+            ];
+        }
+        Mail::to($details['email'])->send(new SendMail($details));
         Session::forget('carts');
-        return redirect()->route('front.index')->with("thongbao", "Đặt hàng thành công");
+        return redirect('/')->with("thongbao", "Đặt hàng thành công");
+    }
+
+    public function createForm(){
+        // dd(request()->all());
+        return view('front.create-form');
+    }
+
+    public function actionCartCreate() {
+        // dd(request()->all());
+        return Redirect::back()->withInput(request()->all());
+    }
+
+    public function hehe(){
+        $carts = session()->get('carts');
+        foreach($carts as $cart){
+            dd($carts);
+        }
+
     }
 }
+

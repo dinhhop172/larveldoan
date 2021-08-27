@@ -25,7 +25,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit brand</h5>
+                <h5 class="modal-title">Edit product</h5>
                 <button type="button" class="close" data-dismiss="modal"></button>
             </div>
             <div class="modal-body">

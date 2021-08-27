@@ -38,22 +38,28 @@
                                         <a class="cart_quantity_down" href="{{ url('/cart/update-quantity', ['product_id' => $cart_data['product_id'], 'action' => 'desc']) }}"> - </a>
                                     @endif
                                     <input class="cart_quantity_input text-center" type="text" name="quantity" value="{{$cart_data['quantity'] }}" autocomplete="off" min="1" size="2" >
-                                    <a class="cart_quantity_up" href="{{ url('/cart/update-quantity', ['product_id' => $cart_data['product_id'], 'action' => 'asc']) }}"> + </a>
+                                    {{-- <a class="cart_quantity_up" href="{{ url('/cart/update-quantity', ['product_id' => $cart_data['product_id'], 'action' => 'asc']) }}"> + </a> --}}
+                                    <a class="cart_quantity_up" href="{{ route('cart.update-quantity', [$cart_data['product_id'], 'asc']) }}"> + </a>
                                 </div>
                             </td>
                             <td class="cart_total">
                                 <p class="cart_total_price">{{$cart_data['price'] * $cart_data['quantity'] }} Đ</p>
                             </td>
                             <td class="cart_delete">
-                                <a style="color: red;" class="cart_quantity_delete" href="{{url('/cart/deleteItem',$cart_data['product_id'])}}"><i class="fa fa-times"></i></a>
+                                {{-- <a style="color: red;" class="cart_quantity_delete" href="{{url('/cart/deleteItem',$cart_data['product_id'])}}"><i class="fa fa-times"></i></a> --}}
+                                <a style="color: red;" class="cart_quantity_delete" href="{{ route('cart.delete', $cart_data['product_id']) }}"><i class="fa fa-times"></i></a>
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
 
+                <a href="{{ route('cart.update-quantity-all') }}" class="btn btn-info float-right">Update All</a>
             </div>
         </div>
+        {{-- <form action="{{ route('hehe') }}">
+            <input type="submit" value="Submit">
+        </form> --}}
         <div class="col-12 col-md-3">
                 <div class="total">
                     <div class="cart-left">
@@ -79,7 +85,6 @@
     <div class="border-bottom mb" style="margin-top: 48px;"></div>
 </div>
 <div class="container-fluid">
-
     <div class="row bg-image">
         <div class="col-12 col-md-6">
             <img src="{{ asset('upload/bner.jpg') }}" alt="" style="width: 159%;">
@@ -89,7 +94,6 @@
             <h3 class="dathang">Đặt Hàng</h3>
             <form method="POST" action="{{ route('dathang') }}">
                 @csrf
-
                 <div class="form-group row">
                     <label for="name" class="col-md-4 col-form-label text-md-right">Họ tên:</label>
 

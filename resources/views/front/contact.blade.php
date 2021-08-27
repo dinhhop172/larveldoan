@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-3">
                 <i class="fas fa-phone yellow mg-15"></i>
-                <h4 class="mg-15">Phone</h4>
+                <h4 class="mg-15">{{ __('content.name') }}</h4>
                 <p class="mg-15">+12-345-6789</p>
             </div>
             <div class="col-3">
